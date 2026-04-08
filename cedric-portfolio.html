@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cedric Mupenzi — Full-Stack Developer & Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,200&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a08;
+    --surface: #111110;
+    --surface2: #1a1a18;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ede6;
+    --text2: #8a877e;
+    --text3: #5a5850;
+    --accent: #c8f060;
+    --accent2: #a8d840;
+    --accent-dim: rgba(200,240,96,0.1);
+    --accent-dim2: rgba(200,240,96,0.06);
+    --coral: #ff6b47;
+    --blue: #4a9eff;
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--text2); text-decoration: none; font-size: 13px; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.ext { color: var(--accent); }
+  .nav-links a.ext:hover { color: var(--accent2); }
+  .nav-cta {
+    background: var(--accent) !important;
+    color: #0a0a08 !important;
+    padding: 8px 18px !important;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.06em !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--accent2) !important; transform: translateY(-1px); }
+
+  main { position: relative; z-index: 1; }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .glow1 {
+    position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,240,96,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .glow2 {
+    position: absolute; bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(74,158,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-dim); border: 1px solid rgba(200,240,96,0.2);
+    border-radius: 100px; padding: 4px 14px 4px 8px; margin-bottom: 28px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .eyebrow span { font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+  .hero-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(42px, 5vw, 68px); line-height: 1.0; letter-spacing: -0.04em;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .hero-name .aka {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 200;
+    font-size: 0.52em; color: var(--text2); letter-spacing: 0; display: block;
+  }
+  .hero-role {
+    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px;
+  }
+  .hero-bio { color: var(--text2); font-size: 14px; line-height: 1.85; margin-bottom: 40px; max-width: 460px; }
+  .hero-bio strong { color: var(--text); font-weight: 400; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-p {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #0a0a08;
+    padding: 13px 28px; border-radius: 8px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.04em; text-decoration: none; transition: background 0.2s, transform 0.15s;
+  }
+  .btn-p:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-s {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--text);
+    padding: 13px 24px; border-radius: 8px; border: 1px solid var(--border2);
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-s:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px 18px; transition: border-color 0.2s, transform 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .stat-card.ac { border-color: rgba(200,240,96,0.2); background: var(--accent-dim2); }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 34px; font-weight: 800; color: var(--accent); letter-spacing: -0.04em; line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 12px; color: var(--text2); letter-spacing: 0.03em; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .tag { font-size: 10px; padding: 2px 8px; border-radius: 100px; border: 1px solid var(--border); color: var(--text3); }
+
+  section { padding: 100px 48px; }
+  .inner { max-width: 1100px; margin: 0 auto; }
+  .sec-label { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .sec-label::before { content:''; display:block; width:24px; height:1px; background:var(--accent); }
+  .sec-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(32px,4vw,52px); letter-spacing:-0.04em; line-height:1.05; color:var(--text); margin-bottom:14px; }
+  .sec-sub { color: var(--text2); font-size: 14px; max-width: 500px; line-height: 1.7; margin-bottom: 56px; }
+
+  #projects { background: var(--surface); }
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .proj-card {
+    background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; transition: border-color 0.25s, transform 0.25s; display: flex; flex-direction: column;
+  }
+  .proj-card:hover { border-color: rgba(200,240,96,0.3); transform: translateY(-6px); }
+  .proj-card.feat { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+  .proj-vis {
+    background: var(--surface2); position: relative; overflow: hidden;
+    height: 220px; display: flex; align-items: center; justify-content: center;
+  }
+  .proj-card.feat .proj-vis { height: auto; min-height: 260px; }
+  .vis-icon { font-size: 72px; opacity: 0.1; position: absolute; }
+  .vis-lines { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 24px; gap: 9px; }
+  .cl { height: 8px; border-radius: 100px; background: rgba(255,255,255,0.05); }
+  .cl.a { background: rgba(200,240,96,0.15); width: 60%; }
+  .cl.s { width: 38%; }
+  .cl.m { width: 72%; }
+  .cl.xl { width: 85%; }
+  .pbadge {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 10px; padding: 4px 10px; border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .live { background: rgba(100,220,100,0.12); color: #6dda6d; border: 1px solid rgba(100,220,100,0.2); }
+  .oss { background: rgba(74,158,255,0.1); color: var(--blue); border: 1px solid rgba(74,158,255,0.2); }
+  .proj-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+  .proj-num { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; margin-bottom: 10px; }
+  .proj-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--text); margin-bottom: 10px; }
+  .proj-desc { color: var(--text2); font-size: 13px; line-height: 1.7; margin-bottom: 18px; flex: 1; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+  .stag { font-size: 11px; padding: 3px 10px; border-radius: 100px; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(200,240,96,0.15); letter-spacing: 0.03em; }
+  .proj-links { display: flex; gap: 8px; }
+  .pl { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); text-decoration: none; border: 1px solid var(--border); padding: 7px 14px; border-radius: 6px; letter-spacing: 0.03em; transition: all 0.2s; }
+  .pl:hover { color: var(--accent); border-color: rgba(200,240,96,0.3); }
+  .pl.prim { background: var(--accent); color: #0a0a08; border-color: transparent; font-weight: 700; }
+  .pl.prim:hover { background: var(--accent2); color: #0a0a08; }
+
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sg { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: border-color 0.2s; }
+  .sg:hover { border-color: var(--border2); }
+  .sg-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sp { font-size: 12px; padding: 6px 13px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
+  .sp:hover { color: var(--text); border-color: var(--border2); }
+
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: center; }
+  .about-vis { position: relative; }
+  .av-box {
+    width: 100%; aspect-ratio: 3/4; background: var(--surface2); border-radius: var(--radius-lg);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  }
+  .av-init { font-family: 'Syne', sans-serif; font-size: 80px; font-weight: 800; color: var(--text3); letter-spacing: -0.06em; }
+  .av-glow { position: absolute; bottom: 0; left: 0; right: 0; height: 45%; background: linear-gradient(to top, rgba(200,240,96,0.07), transparent); }
+  .av-badge {
+    position: absolute; bottom: -16px; right: -16px;
+    background: var(--accent); color: #0a0a08; border-radius: var(--radius);
+    padding: 14px 18px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; line-height: 1.2;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .av-badge small { display: block; font-size: 10px; font-weight: 500; opacity: 0.65; letter-spacing: 0.06em; text-transform: uppercase; }
+  .about-intro { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; font-weight: 300; color: var(--text); line-height: 1.5; margin-bottom: 26px; letter-spacing: -0.01em; }
+  .about-p { color: var(--text2); font-size: 14px; line-height: 1.85; margin-bottom: 14px; }
+  .about-p strong { color: var(--text); font-weight: 400; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 32px; }
+  .fact { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .fact-l { font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+  .fact-v { font-size: 13px; color: var(--text); }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .contact-hl { font-family: 'Fraunces', serif; font-style: italic; font-size: 26px; font-weight: 300; color: var(--text); line-height: 1.4; margin-bottom: 18px; }
+  .contact-p { color: var(--text2); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+  .clinks { display: flex; flex-direction: column; gap: 10px; }
+  .clink {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 18px; text-decoration: none; color: var(--text); transition: all 0.2s;
+  }
+  .clink:hover { border-color: rgba(200,240,96,0.3); transform: translateX(4px); }
+  .clink-ic { width: 34px; height: 34px; border-radius: 8px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .clink-lbl { font-size: 10px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+  .clink-val { font-size: 13px; color: var(--text); }
+  .contact-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+  .contact-form h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 20px; letter-spacing: -0.02em; }
+  .fg { margin-bottom: 14px; }
+  .fl { font-size: 10px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; display: block; }
+  .fi {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 11px 14px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; outline: none; transition: border-color 0.2s;
+  }
+  .fi:focus { border-color: rgba(200,240,96,0.4); }
+  .fi::placeholder { color: var(--text3); }
+  textarea.fi { resize: vertical; min-height: 90px; }
+  .fbtn {
+    width: 100%; background: var(--accent); color: #0a0a08; border: none; border-radius: 8px;
+    padding: 13px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; cursor: pointer; transition: background 0.2s, transform 0.15s;
+  }
+  .fbtn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  footer {
+    padding: 36px 48px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1;
+  }
+  .f-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--text); letter-spacing: -0.03em; }
+  .f-logo span { color: var(--accent); }
+  .f-copy { font-size: 12px; color: var(--text3); }
+  .f-links { display: flex; gap: 18px; }
+  .f-links a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  .f-links a:hover { color: var(--accent); }
+
+  .divider { display: flex; align-items: center; gap: 16px; margin: 0 48px; opacity: 0.12; }
+  .dl { flex: 1; height: 1px; background: var(--text); }
+  .dd { width: 4px; height: 4px; border-radius: 50%; background: var(--text); }
+
+  .cmd-trigger {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 100px;
+    padding: 10px 18px; display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text2); cursor: pointer; z-index: 50;
+    transition: all 0.2s; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .cmd-trigger:hover { border-color: rgba(200,240,96,0.3); color: var(--accent); }
+  .cmd-trigger kbd { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); }
+
+  .cmd-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; backdrop-filter: blur(4px); align-items: flex-start; justify-content: center; padding-top: 18vh; }
+  .cmd-overlay.open { display: flex; }
+  .cmd-box { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 100%; max-width: 520px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
+  .cmd-top { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .cmd-ic { color: var(--accent); font-size: 16px; }
+  .cmd-in { background: transparent; border: none; color: var(--text); font-family: 'DM Mono', monospace; font-size: 15px; outline: none; flex: 1; }
+  .cmd-in::placeholder { color: var(--text3); }
+  .cmd-esc { font-size: 11px; color: var(--text3); padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; }
+  .cmd-list { padding: 8px; max-height: 340px; overflow-y: auto; }
+  .cmd-sec { font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 14px 6px; }
+  .ci { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; cursor: pointer; transition: background 0.15s; color: var(--text2); font-size: 13px; text-decoration: none; }
+  .ci:hover { background: var(--surface2); color: var(--text); }
+  .ci-ic { width: 32px; height: 32px; border-radius: 6px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .ci-lbl { flex: 1; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-name { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-role { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-bio { animation: fadeUp 0.6s 0.3s ease both; }
+  .btns { animation: fadeUp 0.6s 0.4s ease both; }
+  .hero-right { animation: fadeUp 0.7s 0.3s ease both; }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    #hero { padding: 100px 24px 60px; }
+    .hero-inner, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-right { grid-template-columns: 1fr 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .proj-card.feat { grid-column: span 1; grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 14px; text-align: center; }
+    .divider { margin: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">C<span>.</span>M</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/cedric16-stack" target="_blank" class="ext">GitHub ↗</a></li>
+    <li><a href="mailto:cedricmupenzi6@gmail.com" class="nav-cta">Hire me</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">
+        <div class="dot"></div>
+        <span>Available for opportunities</span>
+      </div>
+      <h1 class="hero-name">
+        Cedric<br>Mupenzi
+        <span class="aka">aka Cooper</span>
+      </h1>
+      <div class="hero-role">Full-Stack Developer · Graphic Designer</div>
+      <p class="hero-bio">
+        I build purposeful web apps with <strong>React & Node.js</strong> — combining clean engineering with a designer's eye. Based in <strong>Kigali, Rwanda</strong>. 18 years old, already shipping real products for real users. I believe code should solve problems, not just run.
+      </p>
+      <div class="btns">
+        <a href="#projects" class="btn-p">View my work ↓</a>
+        <a href="https://github.com/cedric16-stack" target="_blank" class="btn-s">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/cedric-mupenzi-14a578370/" target="_blank" class="btn-s">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card ac">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Projects shipped & open-source</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">18</div>
+        <div class="stat-label">Years old, already building</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years hands-on experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">Developer · Designer · Thinker</div>
+        <div class="tag-row">
+          <span class="tag">Dev</span>
+          <span class="tag">Design</span>
+          <span class="tag">Finance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="dl"></div><div class="dd"></div><div class="dl"></div></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="inner">
+    <div class="sec-label">Selected work</div>
+    <h2 class="sec-title">Projects that<br>ship real value.</h2>
+    <p class="sec-sub">Two open-source projects solving real problems. Pull the code, read the commits, see how I think.</p>
+    <div class="proj-grid">
+
+      <!-- Kwetu — featured -->
+      <div class="proj-card feat">
+        <div class="proj-vis">
+          <div class="vis-icon">💰</div>
+          <div class="vis-lines">
+            <div class="cl a"></div>
+            <div class="cl m"></div>
+            <div class="cl s"></div>
+            <div class="cl xl"></div>
+            <div class="cl a" style="width:42%"></div>
+            <div class="cl m"></div>
+            <div class="cl s"></div>
+            <div class="cl" style="width:78%"></div>
+          </div>
+          <div class="pbadge live">● Live</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">01 — Featured</div>
+          <h3 class="proj-title">Kwetu Family Fund</h3>
+          <p class="proj-desc">
+            A family cash-flow tracker I built for actual daily use — not a demo. Handles transaction logging, running balances, and financial visibility for family members. Fintech usually ignores the household level; this fills that gap. It's also a reflection of my interest in finance and why software should serve everyday people.
+          </p>
+          <div class="proj-stack">
+            <span class="stag">React</span>
+            <span class="stag">Node.js</span>
+            <span class="stag">Finance Logic</span>
+            <span class="stag">CRUD</span>
+            <span class="stag">Real-world use</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/cedric16-stack/kwetu-family-fund" target="_blank" class="pl prim">View Code ↗</a>
+            <a href="https://github.com/cedric16-stack/kwetu-family-fund" target="_blank" class="pl">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Electronic Access Web -->
+      <div class="proj-card">
+        <div class="proj-vis">
+          <div class="vis-icon">🛒</div>
+          <div class="vis-lines">
+            <div class="cl a" style="width:55%"></div>
+            <div class="cl m"></div>
+            <div class="cl s"></div>
+            <div class="cl a" style="width:68%"></div>
+            <div class="cl" style="width:50%"></div>
+          </div>
+          <div class="pbadge oss">Open Source</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">02</div>
+          <h3 class="proj-title">Electronic Access Web</h3>
+          <p class="proj-desc">
+            An Amazon-style e-commerce storefront for electronic devices and accessories. Built to understand the full product-browse and purchase flow — clean, responsive UI with an emphasis on usability. Good case study in layout, state, and product data design.
+          </p>
+          <div class="proj-stack">
+            <span class="stag">React</span>
+            <span class="stag">Node.js</span>
+            <span class="stag">E-commerce UI</span>
+            <span class="stag">Responsive</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/cedric16-stack/electronic-accessories-web" target="_blank" class="pl prim">View Code ↗</a>
+            <a href="https://github.com/cedric16-stack/electronic-accessories-web" target="_blank" class="pl">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder -->
+      <div class="proj-card" style="border-style:dashed; border-color:var(--border2); min-height:180px; align-items:center; justify-content:center; text-align:center; padding:36px;">
+        <div>
+          <div style="font-size:28px;margin-bottom:10px;opacity:0.25;">+</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--text2);margin-bottom:4px;">More coming soon</div>
+          <div style="font-size:12px;color:var(--text3);">Building the next one right now</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="dl"></div><div class="dd"></div><div class="dl"></div></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="inner">
+    <div class="sec-label">Capabilities</div>
+    <h2 class="sec-title">What I bring<br>to the table.</h2>
+    <p class="sec-sub">Dev + design in one person. That means fewer handoffs, faster shipping, and better-looking output.</p>
+    <div class="skills-grid">
+      <div class="sg">
+        <div class="sg-title">⚛️ Frontend</div>
+        <div class="skill-list">
+          <span class="sp">React</span>
+          <span class="sp">JavaScript (ES6+)</span>
+          <span class="sp">HTML5 / CSS3</span>
+          <span class="sp">Responsive Design</span>
+          <span class="sp">Component Architecture</span>
+        </div>
+      </div>
+      <div class="sg">
+        <div class="sg-title">⚙️ Backend</div>
+        <div class="skill-list">
+          <span class="sp">Node.js</span>
+          <span class="sp">Express.js</span>
+          <span class="sp">REST APIs</span>
+          <span class="sp">CRUD Operations</span>
+          <span class="sp">Authentication</span>
+        </div>
+      </div>
+      <div class="sg">
+        <div class="sg-title">🎨 Design</div>
+        <div class="skill-list">
+          <span class="sp">Graphic Design</span>
+          <span class="sp">UI / UX Thinking</span>
+          <span class="sp">Visual Composition</span>
+          <span class="sp">Brand Identity</span>
+          <span class="sp">Typography</span>
+        </div>
+      </div>
+      <div class="sg">
+        <div class="sg-title">🧠 Mindset</div>
+        <div class="skill-list">
+          <span class="sp">Finance Logic</span>
+          <span class="sp">Problem Solving</span>
+          <span class="sp">Git & GitHub</span>
+          <span class="sp">Self-directed Learning</span>
+          <span class="sp">Product Thinking</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="dl"></div><div class="dd"></div><div class="dl"></div></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="inner">
+    <div class="about-grid">
+      <div class="about-vis">
+        <div class="av-box">
+          <div class="av-init">CM</div>
+          <div class="av-glow"></div>
+        </div>
+        <div class="av-badge">
+          Kigali, Rwanda 🇷🇼
+          <small>Open to remote</small>
+        </div>
+      </div>
+      <div>
+        <div class="sec-label">About me</div>
+        <h2 class="sec-title">Code, design,<br>&amp; a bit of music.</h2>
+        <p class="about-intro">"18 years old, in my final year of secondary school — already shipping software people use."</p>
+        <p class="about-p">I'm <strong>Cedric Mupenzi</strong> — aka Cooper — a Rwandan developer and graphic designer based in Kigali. I got into software through pure curiosity, built skills through relentless hands-on building, and never stopped.</p>
+        <p class="about-p">My edge is the combination: I can write <strong>clean backend logic</strong>, ship a polished React frontend, and make it look intentionally designed — not just assembled. That's rare. Most developers can't design; most designers can't code.</p>
+        <p class="about-p">Outside the editor I'm into <strong>music and finance</strong>. That's not incidental — it's why one of my projects is a family money tracker. When something bothers me, I build a fix. That's the mindset I bring to every project.</p>
+        <div class="facts">
+          <div class="fact">
+            <div class="fact-l">Location</div>
+            <div class="fact-v">Kigali, Rwanda 🇷🇼</div>
+          </div>
+          <div class="fact">
+            <div class="fact-l">Education</div>
+            <div class="fact-v">Software Development (Final Year)</div>
+          </div>
+          <div class="fact">
+            <div class="fact-l">Interests</div>
+            <div class="fact-v">Coding · Music · Finance</div>
+          </div>
+          <div class="fact">
+            <div class="fact-l">Status</div>
+            <div class="fact-v" style="color:var(--accent)">● Available now</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="dl"></div><div class="dd"></div><div class="dl"></div></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner">
+    <div class="sec-label">Get in touch</div>
+    <h2 class="sec-title">Let's build<br>something together.</h2>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-p">Open to junior developer roles, freelance projects, and collaborations. If you're building something interesting or need someone who thinks in both code and design — reach out.</p>
+        <div class="clinks">
+          <a href="mailto:cedricmupenzi6@gmail.com" class="clink">
+            <div class="clink-ic">✉️</div>
+            <div>
+              <div class="clink-lbl">Email</div>
+              <div class="clink-val">cedricmupenzi6@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://github.com/cedric16-stack" target="_blank" class="clink">
+            <div class="clink-ic">⌨️</div>
+            <div>
+              <div class="clink-lbl">GitHub</div>
+              <div class="clink-val">cedric16-stack</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/cedric-mupenzi-14a578370/" target="_blank" class="clink">
+            <div class="clink-ic">💼</div>
+            <div>
+              <div class="clink-lbl">LinkedIn</div>
+              <div class="clink-val">Cedric Mupenzi</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>Send a quick message</h3>
+        <div class="fg">
+          <label class="fl">Your name</label>
+          <input type="text" class="fi" placeholder="Jane Smith"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Email</label>
+          <input type="email" class="fi" placeholder="jane@company.com"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Message</label>
+          <textarea class="fi" placeholder="Tell me about your project or opportunity..."></textarea>
+        </div>
+        <button class="fbtn" onclick="this.textContent='Sent ✓'; this.style.background='#4aad4a';">Send message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="f-logo">C<span>.</span>M</div>
+  <div class="f-copy">© 2025 Cedric Mupenzi · Kigali, Rwanda</div>
+  <div class="f-links">
+    <a href="https://github.com/cedric16-stack" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/cedric-mupenzi-14a578370/" target="_blank">LinkedIn</a>
+    <a href="mailto:cedricmupenzi6@gmail.com">Email</a>
+  </div>
+</footer>
+
+<!-- ⌘K COMMAND PALETTE TRIGGER -->
+<div class="cmd-trigger" onclick="openCmd()">
+  <span>Navigate</span>
+  <kbd>⌘K</kbd>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" onclick="if(event.target===this)closeCmd()">
+  <div class="cmd-box">
+    <div class="cmd-top">
+      <span class="cmd-ic">⌘</span>
+      <input class="cmd-in" id="cmdIn" placeholder="Search or jump to..." oninput="filterCmd(this.value)"/>
+      <span class="cmd-esc">ESC</span>
+    </div>
+    <div class="cmd-list">
+      <div class="cmd-sec">Navigate</div>
+      <a href="#hero" class="ci" onclick="closeCmd()"><div class="ci-ic">🏠</div><span class="ci-lbl">Home</span></a>
+      <a href="#projects" class="ci" onclick="closeCmd()"><div class="ci-ic">💻</div><span class="ci-lbl">Projects</span></a>
+      <a href="#skills" class="ci" onclick="closeCmd()"><div class="ci-ic">⚡</div><span class="ci-lbl">Skills</span></a>
+      <a href="#about" class="ci" onclick="closeCmd()"><div class="ci-ic">👤</div><span class="ci-lbl">About Cedric</span></a>
+      <a href="#contact" class="ci" onclick="closeCmd()"><div class="ci-ic">✉️</div><span class="ci-lbl">Contact</span></a>
+      <div class="cmd-sec">Quick actions</div>
+      <div class="ci" onclick="navigator.clipboard.writeText('cedricmupenzi6@gmail.com');this.querySelector('.ci-lbl').textContent='Copied!';setTimeout(()=>this.querySelector('.ci-lbl').textContent='Copy email address',1500)">
+        <div class="ci-ic">📋</div><span class="ci-lbl">Copy email address</span>
+      </div>
+      <a href="https://github.com/cedric16-stack" target="_blank" class="ci" onclick="closeCmd()"><div class="ci-ic">⌨️</div><span class="ci-lbl">Open GitHub ↗</span></a>
+      <a href="https://github.com/cedric16-stack/kwetu-family-fund" target="_blank" class="ci" onclick="closeCmd()"><div class="ci-ic">💰</div><span class="ci-lbl">Kwetu Family Fund → Code ↗</span></a>
+      <a href="https://github.com/cedric16-stack/electronic-accessories-web" target="_blank" class="ci" onclick="closeCmd()"><div class="ci-ic">🛒</div><span class="ci-lbl">Electronic Access Web → Code ↗</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openCmd(){document.getElementById('cmdOverlay').classList.add('open');setTimeout(()=>document.getElementById('cmdIn').focus(),50);}
+  function closeCmd(){document.getElementById('cmdOverlay').classList.remove('open');document.getElementById('cmdIn').value='';filterCmd('');}
+  document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmd();}if(e.key==='Escape')closeCmd();});
+  function filterCmd(v){
+    const items=document.querySelectorAll('.ci');
+    const q=v.toLowerCase();
+    items.forEach(i=>{i.style.display=(!q||i.textContent.toLowerCase().includes(q))?'flex':'none';});
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});}
+    });
+  });
+</script>
+</body>
+</html>
